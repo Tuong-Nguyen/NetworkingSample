@@ -13,7 +13,7 @@ public class EarthquakeEventActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_earthquake_event);
 
         // Perform the HTTP request for earthquake data and process the response.
         Event earthquake = Utils.fetchEarthquakeData(USGS_REQUEST_URL);
