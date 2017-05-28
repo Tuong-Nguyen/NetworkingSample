@@ -1,12 +1,15 @@
 package com.example.quanle.networkingsample;
 
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
 public class EarthquakeEventActivity extends AppCompatActivity {
 
-    /** URL for earthquake data from the USGS dataset */
+    /**
+     * URL for earthquake data from the USGS dataset
+     */
     private static final String USGS_REQUEST_URL =
             "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=2016-01-01&endtime=2016-05-02&minfelt=50&minmagnitude=5";
 
@@ -16,10 +19,8 @@ public class EarthquakeEventActivity extends AppCompatActivity {
         setContentView(R.layout.activity_earthquake_event);
 
         // Perform the HTTP request for earthquake data and process the response.
-        Event earthquake = Utils.fetchEarthquakeData(USGS_REQUEST_URL);
-
-        // Update the information displayed to the user.
-        updateUi(earthquake);
+        LoadEarthquakeTask task = new LoadEarthquakeTask();
+        task.execute(USGS_REQUEST_URL);
     }
 
     /**
@@ -34,6 +35,27 @@ public class EarthquakeEventActivity extends AppCompatActivity {
 
         TextView magnitudeTextView = (TextView) findViewById(R.id.perceived_magnitude);
         magnitudeTextView.setText(earthquake.perceivedStrength);
+    }
+
+    /**
+     * Task for loading data
+     */
+    private class LoadEarthquakeTask extends AsyncTask<String, Integer, Event> {
+
+        @Override
+        protected Event doInBackground(String... strings) {
+            if (strings.length > -1) {
+                return Utils.fetchEarthquakeData(strings[0]);
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Event earthquake) {
+            if (earthquake != null) {
+                EarthquakeEventActivity.this.updateUi(earthquake);
+            }
+        }
     }
 }
 
