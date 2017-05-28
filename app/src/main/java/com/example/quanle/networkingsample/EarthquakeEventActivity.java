@@ -40,7 +40,7 @@ public class EarthquakeEventActivity extends AppCompatActivity {
     /**
      * Task for loading data
      */
-    private class LoadEarthquakeTask extends AsyncTask<String, Integer, Event> {
+    private class LoadEarthquakeTask extends AsyncTask<String, Void, Event> {
 
         @Override
         protected Event doInBackground(String... strings) {
